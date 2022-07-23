@@ -3,3 +3,5 @@ Path[1]: Coding
 Path[2]: software devlopment
 Path[3]: visit the gym
 Path[4]: went out for office
+prattice the codes
+went for lunch
