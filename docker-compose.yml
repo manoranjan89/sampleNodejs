@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: node-api
+    build: ./node-api
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    restart: on-failure
+    environment:
+      - DB_HOST=$MONGODB_HOST
+      - DB_USER=$MONGODB_USER
+      - DB_PASSWORD=$MONGODB_PASSWORD
+      - DB_PORT=$MONGO_DOCKER_PORT
+      - DB_NAME=$MONGODB_DATABASE
+
+    external_links: 
+      - mongo
+    depends_on:
+      - mongo
+
+  mongo: 
+    container_name: mongo
+    image: mongo
+    ports: 
+      - $MONGO_LOCAL_PORT:$MONGO_DOCKER_PORT
+    environment:
+      - MONGO_INITDB_DATABASE=$MONGODB_DATABASE
+      - MONGO_INITDB_USER=$MONGODB_USER
+      - MONGO_INITDB_PASSWORD=$MONGODB_PASSWORD
+    volumes:
+      - ./mongo-volume:/data/db
+      - ./initdb.js:/docker-entrypoint-initdb.d/init.mongo.js:ro
